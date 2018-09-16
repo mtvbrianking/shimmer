@@ -17,7 +17,7 @@ import java.util.List;
 public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.MyViewHolder> {
 
    private Context context;
-   private List<Recipe> cartList;
+   private List<Recipe> recipesList;
 
    public class MyViewHolder extends RecyclerView.ViewHolder {
       public TextView name, description, price, chef, timestamp;
@@ -35,9 +35,9 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.My
    }
 
 
-   public RecipeListAdapter(Context context, List<Recipe> cartList) {
+   public RecipeListAdapter(Context context, List<Recipe> recipesList) {
       this.context = context;
-      this.cartList = cartList;
+      this.recipesList = recipesList;
    }
 
    @Override
@@ -50,7 +50,7 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.My
 
    @Override
    public void onBindViewHolder(MyViewHolder holder, final int position) {
-      final Recipe recipe = cartList.get(position);
+      final Recipe recipe = recipesList.get(position);
       holder.name.setText(recipe.getName());
       holder.chef.setText("By " + recipe.getChef());
       holder.description.setText(recipe.getDescription());
@@ -65,7 +65,7 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.My
    // recipe
    @Override
    public int getItemCount() {
-      return cartList.size();
+      return recipesList.size();
    }
 
 }
