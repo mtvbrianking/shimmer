@@ -44,6 +44,7 @@ public class KitchenActivity extends AppCompatActivity {
       RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
       recyclerView.setLayoutManager(mLayoutManager);
       recyclerView.setItemAnimator(new DefaultItemAnimator());
+      recyclerView.addItemDecoration(new RecipeListItemDecoration(this, LinearLayoutManager.VERTICAL, 16));
       recyclerView.setAdapter(recipeListAdapter);
 
       loadRecipes();
