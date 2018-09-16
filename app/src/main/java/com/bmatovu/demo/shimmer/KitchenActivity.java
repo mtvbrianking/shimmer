@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import com.bmatovu.demo.shimmer.http.Api;
 import com.bmatovu.demo.shimmer.http.Recipe;
+import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.List;
 
@@ -18,12 +19,28 @@ public class KitchenActivity extends AppCompatActivity {
 
    private static final String TAG = Kitchen.class.getSimpleName();
 
+   private ShimmerFrameLayout shimmerContainer;
+
    @Override
    protected void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
       setContentView(R.layout.activity_kitchen);
 
+      shimmerContainer = findViewById(R.id.shimmer_view_container);
+
       loadRecipes();
+   }
+
+   @Override
+   public void onResume() {
+      super.onResume();
+      shimmerContainer.startShimmer();
+   }
+
+   @Override
+   public void onPause() {
+      shimmerContainer.stopShimmer();
+      super.onPause();
    }
 
    private void loadRecipes() {
