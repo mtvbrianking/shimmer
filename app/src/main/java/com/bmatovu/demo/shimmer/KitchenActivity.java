@@ -2,13 +2,18 @@ package com.bmatovu.demo.shimmer;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.bmatovu.demo.shimmer.http.Api;
 import com.bmatovu.demo.shimmer.http.Recipe;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -19,6 +24,10 @@ public class KitchenActivity extends AppCompatActivity {
 
    private static final String TAG = Kitchen.class.getSimpleName();
 
+   private RecyclerView recyclerView;
+   private List<Recipe> recipeList;
+   private RecipeListAdapter recipeListAdapter;
+
    private ShimmerFrameLayout shimmerContainer;
 
    @Override
@@ -27,6 +36,15 @@ public class KitchenActivity extends AppCompatActivity {
       setContentView(R.layout.activity_kitchen);
 
       shimmerContainer = findViewById(R.id.shimmer_view_container);
+
+      recyclerView = findViewById(R.id.recycler_view);
+      recipeList = new ArrayList<>();
+      recipeListAdapter = new RecipeListAdapter(this, recipeList);
+
+      RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+      recyclerView.setLayoutManager(mLayoutManager);
+      recyclerView.setItemAnimator(new DefaultItemAnimator());
+      recyclerView.setAdapter(recipeListAdapter);
 
       loadRecipes();
    }
@@ -55,7 +73,18 @@ public class KitchenActivity extends AppCompatActivity {
             if (response.isSuccessful()) {
                List<Recipe> recipes = response.body();
                Log.d(TAG, recipes.toString());
-               Toast.makeText(KitchenActivity.this, recipes.toString(), Toast.LENGTH_LONG).show();
+               // Toast.makeText(KitchenActivity.this, recipes.toString(), Toast.LENGTH_LONG).show();
+
+               // adding recipes to recipe list
+               recipeList.clear();
+               recipeList.addAll(recipes);
+
+               // refreshing recycler view
+               recipeListAdapter.notifyDataSetChanged();
+
+               // stop animating Shimmer and hide the layout
+               shimmerContainer.stopShimmer();
+               shimmerContainer.setVisibility(View.GONE);
             } else {
                Toast.makeText(KitchenActivity.this, "Not successful :|", Toast.LENGTH_LONG).show();
             }
