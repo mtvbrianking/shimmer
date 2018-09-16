@@ -13,11 +13,10 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
-
 public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.MyViewHolder> {
 
    private Context context;
-   private List<Recipe> recipesList;
+   private List<Recipe> recipes;
 
    public class MyViewHolder extends RecyclerView.ViewHolder {
       public TextView name, description, price, chef, timestamp;
@@ -35,9 +34,9 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.My
    }
 
 
-   public RecipeListAdapter(Context context, List<Recipe> recipesList) {
+   public RecipeListAdapter(Context context, List<Recipe> recipes) {
       this.context = context;
-      this.recipesList = recipesList;
+      this.recipes = recipes;
    }
 
    @Override
@@ -50,7 +49,7 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.My
 
    @Override
    public void onBindViewHolder(MyViewHolder holder, final int position) {
-      final Recipe recipe = recipesList.get(position);
+      final Recipe recipe = recipes.get(position);
       holder.name.setText(recipe.getName());
       holder.chef.setText("By " + recipe.getChef());
       holder.description.setText(recipe.getDescription());
@@ -65,7 +64,7 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.My
    // recipe
    @Override
    public int getItemCount() {
-      return recipesList.size();
+      return recipes.size();
    }
 
 }
